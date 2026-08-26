@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TaskFlow | Smart Task Management</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background: #0d0d0d;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================== */
+
+        .navbar {
+            padding: 22px 0;
+            background: rgba(13, 13, 13, 0.95);
+        }
+
+        .navbar-brand {
+            color: #ffffff !important;
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .navbar-brand span {
+            color: #ff6b00;
+        }
+
+        .brand-icon {
+            color: #ff6b00;
+            margin-right: 8px;
+        }
+
+        .nav-link {
+            color: #bdbdbd !important;
+            margin: 0 10px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #ff6b00 !important;
+        }
+
+        .btn-login {
+            color: #ffffff;
+            border: 1px solid #444;
+            padding: 9px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .btn-login:hover {
+            border-color: #ff6b00;
+            color: #ff6b00;
+        }
+
+        .btn-orange {
+            background: #ff6b00;
+            color: #ffffff;
+            border: none;
+            padding: 11px 23px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .btn-orange:hover {
+            background: #ff812b;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================
+           HERO
+        ========================== */
+
+        .hero {
+            min-height: 88vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 80px 0;
+            background:
+                radial-gradient(
+                    circle at 75% 40%,
+                    rgba(255, 107, 0, 0.15),
+                    transparent 35%
+                );
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 107, 0, 0.10);
+            border: 1px solid rgba(255, 107, 0, 0.25);
+            color: #ff8a3d;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 6vw, 72px);
+            line-height: 1.08;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            color: #ff6b00;
+        }
+
+        .hero-text {
+            color: #a9a9a9;
+            font-size: 17px;
+            line-height: 1.8;
+            max-width: 600px;
+            margin-bottom: 32px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-outline-light-custom {
+            border: 1px solid #3d3d3d;
+            color: #ffffff;
+            padding: 11px 23px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-outline-light-custom:hover {
+            border-color: #ff6b00;
+            color: #ff6b00;
+        }
+
+
+        /* =========================
+           DASHBOARD PREVIEW
+        ========================== */
+
+        .preview-wrapper {
+            position: relative;
+        }
+
+        .dashboard-preview {
+            background: #171717;
+            border: 1px solid #303030;
+            border-radius: 20px;
+            padding: 18px;
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.5),
+                0 0 50px rgba(255, 107, 0, 0.08);
+            transform: perspective(1000px) rotateY(-5deg);
+        }
+
+        .preview-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .preview-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .preview-dots {
+            display: flex;
+            gap: 5px;
+        }
+
+        .preview-dots span {
+            width: 7px;
+            height: 7px;
+            background: #555;
+            border-radius: 50%;
+        }
+
+        .preview-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .preview-stat {
+            background: #202020;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .preview-stat small {
+            color: #888;
+            font-size: 10px;
+        }
+
+        .preview-stat strong {
+            display: block;
+            font-size: 22px;
+            margin-top: 5px;
+        }
+
+        .orange-number {
+            color: #ff6b00;
+        }
+
+        .preview-task {
+            background: #202020;
+            border: 1px solid #292929;
+            padding: 14px;
+            border-radius: 11px;
+            margin-bottom: 9px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .task-check {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #555;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .task-check.done {
+            background: #ff6b00;
+            border-color: #ff6b00;
+        }
+
+        .task-check.done i {
+            font-size: 12px;
+        }
+
+        .preview-task-content {
+            flex: 1;
+        }
+
+        .preview-task-content strong {
+            font-size: 12px;
+            display: block;
+        }
+
+        .preview-task-content small {
+            color: #777;
+            font-size: 9px;
+        }
+
+        .priority {
+            font-size: 9px;
+            padding: 4px 8px;
+            border-radius: 20px;
+            background: rgba(255, 107, 0, 0.12);
+            color: #ff873d;
+        }
+
+
+        /* =========================
+           FEATURES
+        ========================== */
+
+        .features {
+            padding: 100px 0;
+            background: #111111;
+        }
+
+        .section-label {
+            color: #ff6b00;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .section-text {
+            color: #8f8f8f;
+            max-width: 600px;
+            margin: 0 auto 50px;
+            line-height: 1.7;
+        }
+
+        .feature-card {
+            height: 100%;
+            background: #181818;
+            border: 1px solid #292929;
+            border-radius: 16px;
+            padding: 28px;
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-7px);
+            border-color: rgba(255, 107, 0, 0.5);
+        }
+
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 107, 0, 0.12);
+            color: #ff6b00;
+            border-radius: 13px;
+            font-size: 23px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: #888;
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+
+        /* =========================
+           CTA
+        ========================== */
+
+        .cta {
+            padding: 90px 0;
+        }
+
+        .cta-box {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 107, 0, 0.16),
+                    rgba(255, 107, 0, 0.04)
+                );
+            border: 1px solid rgba(255, 107, 0, 0.25);
+            border-radius: 22px;
+            padding: 65px 30px;
+            text-align: center;
+        }
+
+        .cta-box h2 {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .cta-box p {
+            color: #999;
+            max-width: 600px;
+            margin: 0 auto 28px;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        footer {
+            border-top: 1px solid #252525;
+            padding: 30px 0;
+            color: #777;
+            font-size: 13px;
+        }
+
+        .footer-brand {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .footer-brand span {
+            color: #ff6b00;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 991px) {
+
+            .hero {
+                text-align: center;
+                padding-top: 60px;
+            }
+
+            .hero-text {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .preview-wrapper {
+                margin-top: 60px;
+            }
+
+            .dashboard-preview {
+                transform: none;
+            }
+
+        }
+
+
+        @media (max-width: 575px) {
+
+            .hero {
+                padding: 50px 0;
+            }
+
+            .hero h1 {
+                letter-spacing: -1px;
+            }
+
+            .hero-text {
+                font-size: 15px;
+            }
+
+            .preview-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .cta-box h2 {
+                font-size: 30px;
+            }
+
+            .navbar .btn-login,
+            .navbar .btn-orange {
+                display: none;
+            }
+
+        }
+.back-to-top {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ff6b00;
+    color: #ffffff;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+    transition: 0.3s;
+    z-index: 999;
+}
+
+.back-to-top:hover {
+    background: #ff812b;
+    color: #ffffff;
+    transform: translateY(-4px);
+}
+    </style>
+
+</head>
+<!-- Back to Top Button -->
+<a href="#" class="back-to-top">
+    <i class="bi bi-arrow-up"></i>
+</a>
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================== -->
+
+<nav class="navbar navbar-expand-lg">
+
+    <div class="container">
+
+        <a
+            class="navbar-brand"
+            href="index.html"
+        >
+
+            <i class="bi bi-check2-square brand-icon"></i>
+
+            Task<span>Flow</span>
+
+        </a>
+
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNav"
+        >
+
+            <i class="bi bi-list text-white fs-3"></i>
+
+        </button>
+
+
+        <div
+            class="collapse navbar-collapse"
+            id="mainNav"
+        >
+
+            <ul class="navbar-nav mx-auto">
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="#features"
+                    >
+                        Features
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="#about"
+                    >
+                        About
+                    </a>
+                </li>
+
+            </ul>
+
+
+            <div class="d-flex align-items-center gap-3">
+
+                <a
+                    href="login.php"
+                    class="btn-login"
+                >
+                    Login
+                </a>
+
+                <a
+                    href="signup.php"
+                    class="btn-orange"
+                >
+                    Get Started
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================
+     HERO
+========================== -->
+
+<section class="hero">
+
+    <div class="container">
+
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-6">
+
+                <div class="hero-badge">
+
+                    <i class="bi bi-stars"></i>
+
+                    Smart & Simple Task Management
+
+                </div>
+
+
+                <h1>
+
+                    Organize your work.
+
+                    <span>
+                        Own your day.
+                    </span>
+
+                </h1>
+
+
+                <p class="hero-text">
+
+                    TaskFlow helps you organize tasks, set priorities,
+                    manage deadlines and track your progress — all from
+                    one clean and powerful workspace.
+
+                </p>
+
+
+                <div class="hero-buttons">
+
+                    <a
+                        href="dashboard.php"
+                        class="btn-orange"
+                    >
+
+                        Open Dashboard
+
+                        <i class="bi bi-arrow-right ms-2"></i>
+
+                    </a>
+
+
+                    <a
+                        href="#features"
+                        class="btn-outline-light-custom"
+                    >
+
+                        Explore Features
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DASHBOARD PREVIEW -->
+
+            <div class="col-lg-6">
+
+                <div class="preview-wrapper">
+
+                    <div class="dashboard-preview">
+
+                        <div class="preview-top">
+
+                            <span class="preview-title">
+                                TaskFlow Dashboard
+                            </span>
+
+                            <div class="preview-dots">
+
+                                <span></span>
+                                <span></span>
+                                <span></span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="preview-stats">
+
+                            <div class="preview-stat">
+
+                                <small>
+                                    TOTAL TASKS
+                                </small>
+
+                                <strong>
+                                    24
+                                </strong>
+
+                            </div>
+
+
+                            <div class="preview-stat">
+
+                                <small>
+                                    PENDING
+                                </small>
+
+                                <strong class="orange-number">
+                                    09
+                                </strong>
+
+                            </div>
+
+
+                            <div class="preview-stat">
+
+                                <small>
+                                    COMPLETED
+                                </small>
+
+                                <strong>
+                                    15
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="preview-task">
+
+                            <div class="task-check done">
+
+                                <i class="bi bi-check-lg"></i>
+
+                            </div>
+
+                            <div class="preview-task-content">
+
+                                <strong>
+                                    Complete project documentation
+                                </strong>
+
+                                <small>
+                                    Completed today
+                                </small>
+
+                            </div>
+
+                            <span class="priority">
+                                High
+                            </span>
+
+                        </div>
+
+
+                        <div class="preview-task">
+
+                            <div class="task-check"></div>
+
+                            <div class="preview-task-content">
+
+                                <strong>
+                                    Review website design
+                                </strong>
+
+                                <small>
+                                    Due tomorrow
+                                </small>
+
+                            </div>
+
+                            <span class="priority">
+                                Medium
+                            </span>
+
+                        </div>
+
+
+                        <div class="preview-task">
+
+                            <div class="task-check"></div>
+
+                            <div class="preview-task-content">
+
+                                <strong>
+                                    Prepare presentation
+                                </strong>
+
+                                <small>
+                                    Due Friday
+                                </small>
+
+                            </div>
+
+                            <span class="priority">
+                                Low
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     FEATURES
+========================== -->
+
+<section
+    class="features"
+    id="features"
+>
+
+    <div class="container">
+
+        <div class="text-center">
+
+            <div class="section-label">
+                Powerful Features
+            </div>
+
+            <h2 class="section-title">
+                Everything you need to stay organized
+            </h2>
+
+            <p class="section-text">
+
+                A focused workspace designed to help you manage
+                everyday tasks without unnecessary complexity.
+
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-list-check"></i>
+
+                    </div>
+
+                    <h4>
+                        Task Management
+                    </h4>
+
+                    <p>
+                        Create, edit, complete and delete tasks
+                        from one simple dashboard.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-flag"></i>
+
+                    </div>
+
+                    <h4>
+                        Priority Tracking
+                    </h4>
+
+                    <p>
+                        Mark tasks as low, medium or high priority
+                        so you always know what matters most.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-calendar-check"></i>
+
+                    </div>
+
+                    <h4>
+                        Due Dates
+                    </h4>
+
+                    <p>
+                        Keep track of deadlines and quickly identify
+                        overdue and today's tasks.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-bar-chart"></i>
+
+                    </div>
+
+                    <h4>
+                        Progress Tracking
+                    </h4>
+
+                    <p>
+                        See completed and pending tasks with a
+                        clear overall progress overview.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     ABOUT / CTA
+========================== -->
+
+<section
+    class="cta"
+    id="about"
+>
+
+    <div class="container">
+
+        <div class="cta-box">
+
+            <div class="section-label">
+                Get Started
+            </div>
+
+            <h2>
+                Turn your plans into progress.
+            </h2>
+
+            <p>
+
+                Stop keeping everything in your head.
+                Start organizing your work with TaskFlow.
+
+            </p>
+
+
+            <a
+                href="dashboard.php"
+                class="btn-orange"
+            >
+
+                Start Managing Tasks
+
+                <i class="bi bi-arrow-right ms-2"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     FOOTER
+========================== -->
+
+<footer>
+
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+            <div>
+
+                <span class="footer-brand">
+                    Task<span>Flow</span>
+                </span>
+
+                <span class="ms-2">
+                    — Smart task management.
+                </span>
+
+            </div>
+
+
+            <div>
+                © 2026 TaskFlow. All rights reserved.
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+</body>
+
+</html>
